@@ -84,6 +84,7 @@ file "traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.
 end
 
 def create_package(target)
+  sh "mkdir -p lib"
   sh "rm -rf lib/app"
   sh "rm -rf lib/ruby"
   sh "rm -rf lib/vendor"
@@ -109,4 +110,23 @@ end
 def download_native_extension(target, gem_name_and_version)
   sh "curl -L --fail -o traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem_name_and_version}.tar.gz " +
     "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
+end
+
+desc "Integration Test"
+task :test do
+  expected = File.read(__dir__ + '/integration-test/expected_output')
+  actual = %x(serverless run -f hello)
+
+  puts '------expected output------'
+  puts expected
+  puts '------actual output------'
+  puts actual
+
+  if expected == actual
+    puts 'test success!'
+    exit 0
+  else
+    puts 'test failed!'
+    exit 1
+  end
 end

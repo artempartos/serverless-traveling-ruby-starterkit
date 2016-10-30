@@ -1,0 +1,17 @@
+before_install:
+  - rvm use 2.1.5 --install --binary --fuzzy
+  - ruby --version
+  - rvm --version
+  - bundle --version
+  - gem --version
+env:
+  global:
+    - AWS_ACCESS_KEY_ID="AKIAIOSFODNN7EXAMPLE"
+    - AWS_REGION="us-east-1"
+    - AWS_SECRET_ACCESS_KEY="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+language: node_js
+node_js:
+  - "6"
+script:
+  - rake package:linux:x86_64
+  - rake test
