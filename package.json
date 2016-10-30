@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "sample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "serverless": "^1.0.3",
+    "serverless-run-function-plugin": "0.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.9.0",
+    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-node": "^2.1.3"
+  }
+}

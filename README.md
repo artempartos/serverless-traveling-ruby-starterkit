@@ -1,1 +1,0 @@
-This is the end result of [Traveling Ruby tutorial 3](https://github.com/phusion/traveling-ruby/blob/master/TUTORIAL-3.md).
