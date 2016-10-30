@@ -5,5 +5,5 @@ puts "context: #{ARGV[1]}"
 puts "To: Lambda,"
 puts "From: Ruby!"
 
-require 'nokogiri'
-puts Nokogiri
+require 'mechanize'
+puts Mechanize

@@ -17,7 +17,7 @@ context: {
 }
 To: Lambda,
 From: Ruby!
-Nokogiri
+Mechanize
 
 Process completed: ./wrapper.sh
 Serverless: -----------------
