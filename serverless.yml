@@ -16,3 +16,4 @@ functions:
           method: get
 plugins:
   - serverless-run-function-plugin
+  - custom-serverless-plugin
