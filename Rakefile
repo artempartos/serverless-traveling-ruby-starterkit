@@ -48,7 +48,6 @@ namespace :package do
       sh "mkdir ruby-lib/ruby"
       sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C ruby-lib/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
-      sh "mv vendor ruby-lib"
       sh "cp app/Gemfile app/Gemfile.lock ruby-lib/vendor/"
       sh "mkdir ruby-lib/vendor/.bundle"
 
