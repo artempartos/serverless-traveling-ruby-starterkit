@@ -17,7 +17,8 @@ namespace :package do
       if RUBY_VERSION !~ /^2\.1\./
         abort "You can only 'bundle install' using Ruby 2.1, because that's what Traveling Ruby uses."
       end
-      tmpdir = %x(mktemp -t tmp -d -q).chomp
+      sh "uname"
+      tmpdir = %x(mktemp -d -q).chomp
       sh "cp app/Gemfile app/Gemfile.lock #{tmpdir}/"
 
       # bundle_install
