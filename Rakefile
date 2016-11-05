@@ -52,21 +52,21 @@ file "traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_
 end
 
 def create_package(target)
-  sh "mkdir -p lib"
-  sh "rm -rf lib/app"
-  sh "rm -rf lib/ruby"
-  sh "rm -rf lib/vendor"
-  sh "cp -r app lib/"
-  sh "mkdir lib/ruby"
-  sh "mkdir lib/vendor"
-  sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C lib/ruby"
+  sh "mkdir -p ruby-lib"
+  sh "rm -rf ruby-lib/app"
+  sh "rm -rf ruby-lib/ruby"
+  sh "rm -rf ruby-lib/vendor"
+  sh "cp -r app ruby-lib/"
+  sh "mkdir ruby-lib/ruby"
+  sh "mkdir ruby-lib/vendor"
+  sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C ruby-lib/ruby"
   sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
-  sh "mv vendor lib"
-  sh "cp app/Gemfile app/Gemfile.lock lib/vendor/"
-  sh "mkdir lib/vendor/.bundle"
-  sh "cp bundler-config lib/vendor/.bundle/config"
+  sh "mv vendor ruby-lib"
+  sh "cp app/Gemfile app/Gemfile.lock ruby-lib/vendor/"
+  sh "mkdir ruby-lib/vendor/.bundle"
+  sh "cp bundler-config ruby-lib/vendor/.bundle/config"
   sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz " +
-    "-C lib/vendor/ruby"
+    "-C ruby-lib/vendor/ruby"
   sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz"
 end
 
