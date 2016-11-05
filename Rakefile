@@ -2,8 +2,6 @@ require 'bundler'
 # For Bundler.with_clean_env
 require 'bundler/setup'
 
-PACKAGE_NAME = "hello"
-VERSION = "1.0.0"
 TRAVELING_RUBY_VERSION = "20150204-2.1.5"
 NOKOGIRI_VERSION = "1.6.6.2"  # Must match Gemfile
 
@@ -14,7 +12,7 @@ namespace :package do
   namespace :linux do
     desc "Package your app for Linux x86_64"
     task :x86_64 do
-      if RUBY_VERSION !~ /^2\.1\./
+      unless RUBY_VERSION.start_with?('2.1.')
         abort "You can only 'bundle install' using Ruby 2.1, because that's what Traveling Ruby uses."
       end
 
