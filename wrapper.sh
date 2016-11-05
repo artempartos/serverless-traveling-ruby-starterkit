@@ -6,7 +6,7 @@ SELFDIR="`dirname \"$0\"`"
 SELFDIR="`cd \"$SELFDIR\" && pwd`"
 
 # Tell Bundler where the Gemfile and gems are.
-export BUNDLE_GEMFILE="$SELFDIR/ruby-lib/Gemfile"
+export BUNDLE_GEMFILE="$SELFDIR/ruby-lib/app/Gemfile"
 unset BUNDLE_IGNORE_CONFIG
 
 # Run the actual app using the bundled Ruby interpreter, with Bundler activated.

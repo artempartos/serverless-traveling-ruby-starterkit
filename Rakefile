@@ -22,19 +22,20 @@ namespace :package do
       sh "cp app/Gemfile app/Gemfile.lock #{tmpdir}/"
 
       sh "rm -rf ruby-lib"
-      sh "mkdir -p ruby-lib/vendor"
+      sh "cp -r app ruby-lib/"
+      sh "rm -rf ruby-lib/app/vendor/bundle ruby-lib/app/.bundle"
 
       # bundle_install
       Bundler.with_clean_env do
         puts __dir__
-        sh "cd #{tmpdir} && env BUNDLE_IGNORE_CONFIG=1 bundle install --path #{__dir__}/ruby-lib/vendor --without development"
+        sh "cd #{tmpdir} && env BUNDLE_IGNORE_CONFIG=1 bundle install --path #{__dir__}/ruby-lib/app/vendor/bundle --without development"
       end
 
-      sh "rm -f ruby-lib/vendor/*/*/cache/*"
-      sh "rm -rf ruby-lib/vendor/ruby/*/extensions"
-      sh "find ruby-lib/vendor/ruby/*/gems -name '*.so' | xargs rm -f"
-      sh "find ruby-lib/vendor/ruby/*/gems -name '*.bundle' | xargs rm -f"
-      sh "find ruby-lib/vendor/ruby/*/gems -name '*.o' | xargs rm -f"
+      sh "rm -f ruby-lib/app/vendor/bundle/*/*/cache/*"
+      sh "rm -rf ruby-lib/app/vendor/bundle/ruby/*/extensions"
+      sh "find ruby-lib/app/vendor/bundle/ruby/*/gems -name '*.so' | xargs rm -f"
+      sh "find ruby-lib/app/vendor/bundle/ruby/*/gems -name '*.bundle' | xargs rm -f"
+      sh "find ruby-lib/app/vendor/bundle/ruby/*/gems -name '*.o' | xargs rm -f"
 
       target = "linux-x86_64"
       # download
@@ -44,14 +45,12 @@ namespace :package do
       sh "curl -L --fail -o traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem_name_and_version}.tar.gz " +
         "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
 
-      sh "cp -r app ruby-lib/"
       sh "mkdir ruby-lib/ruby"
       sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C ruby-lib/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
-      sh "mkdir ruby-lib/.bundle"
-
-      sh "echo 'BUNDLE_PATH: ./vendor\nBUNDLE_WITHOUT: development\nBUNDLE_DISABLE_SHARED_GEMS: '1'\n' > ruby-lib/.bundle/config"
-      sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz -C ruby-lib/vendor/ruby"
+      sh "mkdir ruby-lib/app/.bundle"
+      sh "echo 'BUNDLE_PATH: ./vendor\nBUNDLE_WITHOUT: development\nBUNDLE_DISABLE_SHARED_GEMS: '1'\n' > ruby-lib/app/.bundle/config"
+      sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz -C ruby-lib/app/vendor/bundle/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz"
     end
   end
