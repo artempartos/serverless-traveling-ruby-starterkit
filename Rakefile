@@ -51,7 +51,8 @@ namespace :package do
       sh "mv vendor ruby-lib"
       sh "cp app/Gemfile app/Gemfile.lock ruby-lib/vendor/"
       sh "mkdir ruby-lib/vendor/.bundle"
-      sh "cp bundler-config ruby-lib/vendor/.bundle/config"
+
+      sh "echo 'BUNDLE_PATH: .\nBUNDLE_WITHOUT: development\nBUNDLE_DISABLE_SHARED_GEMS: '1'\n' > ruby-lib/vendor/.bundle/config"
       sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz " + "-C ruby-lib/vendor/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz"
     end
