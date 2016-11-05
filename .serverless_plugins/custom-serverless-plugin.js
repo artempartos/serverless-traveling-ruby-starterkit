@@ -1,29 +1,18 @@
 'use strict';
 
-class Deplo {
+class CustomServerlessPlugin {
   constructor() {
     this.commands = {
-      deplo: {
+      deploy: {
         lifecycleEvents: [
-          'resources',
           'functions'
         ]
       },
     };
 
     this.hooks = {
-      'before:deplo:resources': this.beforeDeployResources,
-      'deplo:resources': this.deployResources,
-      'after:deplo:functions': this.afterDeployFunctions
+      'after:deploy:functions': this.afterDeployFunctions
     };
-  }
-
-  beforeDeployResources() {
-    console.log('Before Deploy Resources');
-  }
-
-  deployResources() {
-    console.log('Deploy Resources');
   }
 
   afterDeployFunctions() {
@@ -31,4 +20,4 @@ class Deplo {
   }
 }
 
-module.exports = Deplo
+module.exports = CustomServerlessPlugin;
