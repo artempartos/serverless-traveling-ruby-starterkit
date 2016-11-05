@@ -48,10 +48,9 @@ namespace :package do
       sh "mkdir ruby-lib/ruby"
       sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C ruby-lib/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
-      sh "cp app/Gemfile app/Gemfile.lock ruby-lib/"
       sh "mkdir ruby-lib/.bundle"
 
-      sh "echo 'BUNDLE_PATH: .\nBUNDLE_WITHOUT: development\nBUNDLE_DISABLE_SHARED_GEMS: '1'\n' > ruby-lib/.bundle/config"
+      sh "echo 'BUNDLE_PATH: ./vendor\nBUNDLE_WITHOUT: development\nBUNDLE_DISABLE_SHARED_GEMS: '1'\n' > ruby-lib/.bundle/config"
       sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz -C ruby-lib/vendor/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz"
     end
