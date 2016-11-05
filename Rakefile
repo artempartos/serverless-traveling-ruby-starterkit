@@ -22,6 +22,7 @@ namespace :package do
       sh "cp app/Gemfile app/Gemfile.lock #{tmpdir}/"
 
       sh "rm -rf ruby-lib"
+      sh "mkdir ruby-lib/"
       sh "cp -r app ruby-lib/"
       sh "rm -rf ruby-lib/app/vendor/bundle ruby-lib/app/.bundle"
 
