@@ -50,7 +50,7 @@ namespace :package do
       sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C ruby-lib/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
       sh "mkdir ruby-lib/app/.bundle"
-      sh "echo 'BUNDLE_PATH: ./vendor\nBUNDLE_WITHOUT: development\nBUNDLE_DISABLE_SHARED_GEMS: '1'\n' > ruby-lib/app/.bundle/config"
+      sh "echo 'BUNDLE_PATH: ./vendor/bundle\nBUNDLE_WITHOUT: development\nBUNDLE_DISABLE_SHARED_GEMS: '1'' > ruby-lib/app/.bundle/config"
       sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz -C ruby-lib/app/vendor/bundle/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz"
     end
