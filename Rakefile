@@ -8,18 +8,10 @@ TRAVELING_RUBY_VERSION = "20150204-2.1.5"
 NOKOGIRI_VERSION = "1.6.6.2"  # Must match Gemfile
 
 desc "Package your app"
-task :package => ['package:linux:x86', 'package:linux:x86_64', 'package:osx']
+task :package => ['package:linux:x86_64']
 
 namespace :package do
   namespace :linux do
-    desc "Package your app for Linux x86"
-    task :x86 => [:bundle_install,
-      "traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz",
-      "traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz"
-    ] do
-      create_package("linux-x86")
-    end
-
     desc "Package your app for Linux x86_64"
     task :x86_64 => [:bundle_install,
       "traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz",
@@ -27,14 +19,6 @@ namespace :package do
     ] do
       create_package("linux-x86_64")
     end
-  end
-
-  desc "Package your app for OS X"
-  task :osx => [:bundle_install,
-    "traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz",
-    "traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz"
-  ] do
-    create_package("osx")
   end
 
   desc "Install gems to local directory"
@@ -59,28 +43,12 @@ namespace :package do
   end
 end
 
-file "traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86.tar.gz" do
-  download_runtime("linux-x86")
-end
-
 file "traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64.tar.gz" do
   download_runtime("linux-x86_64")
 end
 
-file "traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx.tar.gz" do
-  download_runtime("osx")
-end
-
-file "traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86-nokogiri-#{NOKOGIRI_VERSION}.tar.gz" do
-  download_native_extension("linux-x86", "nokogiri-#{NOKOGIRI_VERSION}")
-end
-
 file "traveling-ruby-#{TRAVELING_RUBY_VERSION}-linux-x86_64-nokogiri-#{NOKOGIRI_VERSION}.tar.gz" do
   download_native_extension("linux-x86_64", "nokogiri-#{NOKOGIRI_VERSION}")
-end
-
-file "traveling-ruby-#{TRAVELING_RUBY_VERSION}-osx-nokogiri-#{NOKOGIRI_VERSION}.tar.gz" do
-  download_native_extension("osx", "nokogiri-#{NOKOGIRI_VERSION}")
 end
 
 def create_package(target)
