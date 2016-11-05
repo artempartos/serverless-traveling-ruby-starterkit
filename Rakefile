@@ -21,17 +21,20 @@ namespace :package do
       tmpdir = %x(mktemp -d -q).chomp # FreeBSD may need "-t" flag
       sh "cp app/Gemfile app/Gemfile.lock #{tmpdir}/"
 
+      sh "rm -rf ruby-lib"
+      sh "mkdir -p ruby-lib/vendor"
+
       # bundle_install
       Bundler.with_clean_env do
         puts __dir__
-        sh "cd #{tmpdir} && env BUNDLE_IGNORE_CONFIG=1 bundle install --path #{__dir__}/vendor --without development"
+        sh "cd #{tmpdir} && env BUNDLE_IGNORE_CONFIG=1 bundle install --path #{__dir__}/ruby-lib/vendor --without development"
       end
 
-      sh "rm -f vendor/*/*/cache/*"
-      sh "rm -rf vendor/ruby/*/extensions"
-      sh "find vendor/ruby/*/gems -name '*.so' | xargs rm -f"
-      sh "find vendor/ruby/*/gems -name '*.bundle' | xargs rm -f"
-      sh "find vendor/ruby/*/gems -name '*.o' | xargs rm -f"
+      sh "rm -f ruby-lib/vendor/*/*/cache/*"
+      sh "rm -rf ruby-lib/vendor/ruby/*/extensions"
+      sh "find ruby-lib/vendor/ruby/*/gems -name '*.so' | xargs rm -f"
+      sh "find ruby-lib/vendor/ruby/*/gems -name '*.bundle' | xargs rm -f"
+      sh "find ruby-lib/vendor/ruby/*/gems -name '*.o' | xargs rm -f"
 
       target = "linux-x86_64"
       # download
@@ -41,14 +44,8 @@ namespace :package do
       sh "curl -L --fail -o traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem_name_and_version}.tar.gz " +
         "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
 
-      # package
-      sh "mkdir -p ruby-lib"
-      sh "rm -rf ruby-lib/app"
-      sh "rm -rf ruby-lib/ruby"
-      sh "rm -rf ruby-lib/vendor"
       sh "cp -r app ruby-lib/"
       sh "mkdir ruby-lib/ruby"
-      sh "mkdir ruby-lib/vendor"
       sh "tar -xzf traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C ruby-lib/ruby"
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
       sh "mv vendor ruby-lib"
