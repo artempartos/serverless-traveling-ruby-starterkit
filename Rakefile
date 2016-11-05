@@ -37,7 +37,7 @@ namespace :package do
       # download
       sh "curl -L -O --fail " +
         "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
-      gem_name_and_version = "nokogiri-#{NOKOGIRI_VERSION}")
+      gem_name_and_version = "nokogiri-#{NOKOGIRI_VERSION}"
       sh "curl -L --fail -o traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem_name_and_version}.tar.gz " +
         "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
 
