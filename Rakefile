@@ -17,8 +17,8 @@ namespace :package do
       if RUBY_VERSION !~ /^2\.1\./
         abort "You can only 'bundle install' using Ruby 2.1, because that's what Traveling Ruby uses."
       end
-      sh "uname"
-      tmpdir = %x(mktemp -d -q).chomp
+
+      tmpdir = %x(mktemp -d -q).chomp # FreeBSD may need "-t" flag
       sh "cp app/Gemfile app/Gemfile.lock #{tmpdir}/"
 
       # bundle_install
@@ -33,12 +33,15 @@ namespace :package do
       sh "find vendor/ruby/*/gems -name '*.bundle' | xargs rm -f"
       sh "find vendor/ruby/*/gems -name '*.o' | xargs rm -f"
 
+      target = "linux-x86_64"
       # download
-      download_runtime("linux-x86_64")
-      download_native_extension("linux-x86_64", "nokogiri-#{NOKOGIRI_VERSION}")
+      sh "curl -L -O --fail " +
+        "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
+      gem_name_and_version = "nokogiri-#{NOKOGIRI_VERSION}")
+      sh "curl -L --fail -o traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem_name_and_version}.tar.gz " +
+        "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
 
       # package
-      target = "linux-x86_64"
       sh "mkdir -p ruby-lib"
       sh "rm -rf ruby-lib/app"
       sh "rm -rf ruby-lib/ruby"
@@ -57,16 +60,6 @@ namespace :package do
       sh "rm traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-nokogiri-#{NOKOGIRI_VERSION}.tar.gz"
     end
   end
-end
-
-def download_runtime(target)
-  sh "curl -L -O --fail " +
-    "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz"
-end
-
-def download_native_extension(target, gem_name_and_version)
-  sh "curl -L --fail -o traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}-#{gem_name_and_version}.tar.gz " +
-    "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-gems-#{TRAVELING_RUBY_VERSION}-#{target}/#{gem_name_and_version}.tar.gz"
 end
 
 desc "Integration Test"
