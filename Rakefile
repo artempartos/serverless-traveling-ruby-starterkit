@@ -26,15 +26,14 @@ namespace :package do
     if RUBY_VERSION !~ /^2\.1\./
       abort "You can only 'bundle install' using Ruby 2.1, because that's what Traveling Ruby uses."
     end
-    sh "rm -rf tmp"
-    sh "mkdir tmp"
-    sh "cp app/Gemfile app/Gemfile.lock tmp/"
+    tmpdir = %x(mktemp -t tmp -d -q).chomp
+    sh "cp app/Gemfile app/Gemfile.lock #{tmpdir}/"
 
     Bundler.with_clean_env do
-      sh "cd tmp && env BUNDLE_IGNORE_CONFIG=1 bundle install --path ../vendor --without development"
+      puts __dir__
+      sh "cd #{tmpdir} && env BUNDLE_IGNORE_CONFIG=1 bundle install --path #{__dir__}/vendor --without development"
     end
 
-    sh "rm -rf tmp"
     sh "rm -f vendor/*/*/cache/*"
     sh "rm -rf vendor/ruby/*/extensions"
     sh "find vendor/ruby/*/gems -name '*.so' | xargs rm -f"
