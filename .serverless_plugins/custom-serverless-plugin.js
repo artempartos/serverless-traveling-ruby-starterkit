@@ -1,8 +1,16 @@
 'use strict';
 
 class CustomServerlessPlugin {
-  constructor() {
+  constructor(serverless, options) {
+    this.serverless = serverless;
+    this.options = options;
+
     this.commands = {
+      log: {
+        lifecycleEvents: [
+          'serverless'
+        ],
+      },
       deploy: {
         lifecycleEvents: [
           'functions'
@@ -11,10 +19,13 @@ class CustomServerlessPlugin {
     };
 
     this.hooks = {
+      'log:serverless': this.logServerless.bind(this),
       'after:deploy:functions': this.afterDeployFunctions
     };
   }
-
+  logServerless() {
+    console.log('Serverless instance: ', this.serverless);
+  }
   afterDeployFunctions() {
     console.log('After Deploy Functions');
   }
