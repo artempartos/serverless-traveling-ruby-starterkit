@@ -13,5 +13,5 @@ language: node_js
 node_js:
   - "6"
 script:
-  - rake package:linux:x86_64
+  - rake package
   - rake test

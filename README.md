@@ -5,13 +5,6 @@
 ## deploy
 
 ```
-$ rake package:linux:x86_64
+$ rake package
 $ sls deploy
-```
-
-## run lambda on osx
-
-```
-$ rake package:osx
-$ sls run -f hello
 ```
